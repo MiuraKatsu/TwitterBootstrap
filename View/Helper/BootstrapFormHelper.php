@@ -136,6 +136,12 @@ class BootstrapFormHelper extends FormHelper {
 		$out = explode("\n", $out);
 		foreach ($out as $key => &$_out) {
 			$input = strip_tags($_out, '<input><img>');
+			$_label = strip_tags($_out, '<label>');
+			$cnt = preg_match_all("/<label (.*)>.*<\/label>/",$_label,$dump);
+			for($i=1;$i<=$cnt;$i++){
+				$value = preg_split('/=/',$dump[$i][0]);
+				$options[ $value[0] ] = preg_replace('/"|\'/','',$value[1]);
+			}
 			if ($input) {
 				$_out = $this->Html->tag('label', $input, $options);
 			}
