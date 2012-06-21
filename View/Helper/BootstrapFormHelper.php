@@ -172,8 +172,15 @@ class BootstrapFormHelper extends FormHelper {
 			'class' => self::CLASS_BUTTON,
 			'div' => self::CLASS_ACTION,
 			'icon' => null,
+			'after'=> null,
+			'before'=>null,
 		);
 		$options = array_merge($default, $this->_inputDefaults, $options);
+
+		$before = $options['before'];
+		$after = $options['after'];
+		unset($options['before'], $options['after']);
+
 		if ($options['div'] !== false && $this->_isHorizontal) {
 			$options['div'] = self::CLASS_ACTION;
 		}
@@ -183,6 +190,9 @@ class BootstrapFormHelper extends FormHelper {
 		}
 		$div = $this->_extractOption('div', $options);
 		$out = $this->button($caption, $options);
+
+		$out = $before . $out . $after;
+
 		return (false === $div) ? $out : $this->Html->div($div, $out);
 	}
 
